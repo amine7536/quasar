@@ -1,0 +1,39 @@
+# Binaries for programs and plugins
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Test binary, build with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Project-local glide cache, RE: https://github.com/Masterminds/glide/issues/736
+.glide/
+
+# Godeps files
+/Godeps/_workspace/pkg
+/Godeps/_workspace/bin
+
+# Go vendored libs
+/vendor/*/
+
+# Temporary and log file
+temp.txt
+*.log
+tmp
+
+# Vagrant
+.vagrant
+
+# Build dir
+build
+
+# Mac ugly stuff
+.DS_Store
+._.DS_Store
+
+# VSCode
+.vscode
