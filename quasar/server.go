@@ -18,10 +18,15 @@ import (
 
 type event struct {
 	time     time.Time
-	network  string
+	network  nilr
 	nexthop  net.IP
 	withdraw bool
 	neighbor neighbor
+}
+
+type nilr struct {
+	net  string
+	name []string
 }
 
 type neighbor struct {
@@ -91,7 +96,15 @@ mainLoop:
 			case *gobgp.WatchEventBestPath:
 				for _, path := range msg.PathList {
 
-					neighborName, _ := utils.ResolveName(path.GetSource().Address)
+					neighborName, err := utils.ResolveName(path.GetSource().Address.String())
+					if err != nil {
+						logger.Warn(err.Error())
+					}
+
+					nlirName, err := utils.ResolveNilrName(path.GetNlri().String())
+					if err != nil {
+						logger.Warn(err.Error())
+					}
 
 					e := event{
 						time: path.GetTimestamp(),
@@ -102,7 +115,10 @@ mainLoop:
 						},
 						withdraw: path.IsWithdraw,
 						nexthop:  path.GetNexthop(),
-						network:  path.GetNlri().String(),
+						network: nilr{
+							net:  path.GetNlri().String(),
+							name: nlirName,
+						},
 					}
 
 					fmt.Printf("%+v\n", e)
