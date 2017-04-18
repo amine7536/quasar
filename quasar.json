@@ -3,7 +3,7 @@
   "asn": 65000,
   "api": true,
   "logs": {
-    "level": "warning",
+    "level": "info",
     "file": "",
     "format": "json"
   },

@@ -121,6 +121,10 @@ mainLoop:
 						},
 					}
 
+					// Outputs
+					for _, out := range config.Outputs {
+						logger.Infof(out.Mode)
+					}
 					fmt.Printf("%+v\n", e)
 					fmt.Printf("%+v\n", path)
 

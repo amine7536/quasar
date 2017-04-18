@@ -11,6 +11,13 @@ type Neighbor struct {
 	Asn     uint32 `json:"asn"`
 }
 
+// Outputs config
+type Outputs struct {
+	Mode string `json:"mode"`
+	Host string `json:"host"`
+	Port string `json:"port"`
+}
+
 // Config the application's configuration
 type Config struct {
 	RouterID  string        `json:"routerid"`
@@ -18,6 +25,7 @@ type Config struct {
 	API       bool          `json:"api"`
 	Neighbors []Neighbor    `json:"neighbors"`
 	Logs      LoggingConfig `json:"logs"`
+	Outputs   []Outputs     `json:"outputs"`
 }
 
 // LoadConfig loads the config from a file if specified, otherwise from the environment
