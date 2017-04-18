@@ -1,7 +1,9 @@
 package utils
 
 import (
+	"fmt"
 	"io/ioutil"
+	"net"
 	"os"
 )
 
@@ -20,4 +22,19 @@ func IsValidPath(fp string) bool {
 	}
 
 	return false
+}
+
+// ResolveName get neighbor ip
+func ResolveName(ip net.IP) ([]string, error) {
+	// Try to get Neighbor DNS Names
+	names, err := net.LookupAddr(ip.String())
+	if err != nil {
+		return nil, err
+	}
+	return names, nil
+}
+
+// Typeof Print type
+func Typeof(v interface{}) string {
+	return fmt.Sprintf("%T", v)
 }

@@ -3,7 +3,8 @@ package cmd
 import (
 	"log"
 
-	"github.com/amine7536/quasar/config"
+	"github.com/amine7536/quasar/conf"
+	"github.com/amine7536/quasar/quasar"
 	"github.com/spf13/cobra"
 )
 
@@ -28,19 +29,19 @@ func NewRootCmd(v string, p string) *cobra.Command {
 }
 
 func run(cmd *cobra.Command, args []string) {
-	conf, err := config.LoadConfig(cmd)
+	config, err := conf.LoadConfig(cmd)
 	if err != nil {
 		log.Fatal("Failed to load config: " + err.Error())
 	}
 
-	logger, err := config.ConfigureLogging(&conf.LogConfig)
+	logger, err := conf.ConfigureLogging(&config.Logs)
 	if err != nil {
 		log.Fatal("Failed to configure logging: " + err.Error())
 	}
 
-	logger.Infof("Starting with config: %+v", conf)
+	logger.Infof("Starting with config: %+v", config)
 
 	// Start the Application
-	//app.Start(conf, logger)
+	quasar.Start(config, logger)
 
 }

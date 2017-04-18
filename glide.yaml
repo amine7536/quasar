@@ -3,3 +3,4 @@ import:
 - package: github.com/Sirupsen/logrus
 - package: github.com/spf13/viper
 - package: github.com/spf13/cobra
+- package: github.com/osrg/gobgp
