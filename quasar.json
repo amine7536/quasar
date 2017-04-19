@@ -1,19 +1,23 @@
 {
   "routerid": "10.2.2.2",
   "asn": 65000,
-  "api": true,
+  "api": false,
   "logs": {
-    "level": "warning",
-    "file": "",
+    "level": "info",
+    "file": "quasar.log",
     "format": "json"
   },
   "neighbors":[{
       "address": "10.2.2.3",
       "asn": 65000
   }],
-  "outputs": [{
-    "host": "localhost",
-    "port": "3000",
-    "mode": "logstash"
-  }]
+  "outputs": {
+    "logstash": {
+      "host": "localhost",
+      "port": "9000"
+    },
+    "stdout": {
+      "mode":"json"
+    }
+  }
 }

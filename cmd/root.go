@@ -4,6 +4,8 @@ import (
 	"log"
 
 	"github.com/amine7536/quasar/conf"
+	"github.com/amine7536/quasar/output/logstash"
+	"github.com/amine7536/quasar/output/stdout"
 	"github.com/amine7536/quasar/quasar"
 	"github.com/spf13/cobra"
 )
@@ -40,6 +42,32 @@ func run(cmd *cobra.Command, args []string) {
 	}
 
 	logger.Infof("Starting with config: %+v", config)
+
+	// Register Outputs
+	if config.Outputs != nil {
+		for k, v := range config.Outputs {
+
+			switch k {
+			case "stdout":
+				output, err := outputstdout.InitOutput(&v, logger)
+				conf.RegisterOutput(k, output)
+				if err != nil {
+					logger.Fatalf("Faild to init output %s", k)
+					break
+				}
+
+			case "logstash":
+				output, err := outputlogstash.InitOutput(&v, logger)
+				conf.RegisterOutput(k, output)
+				if err != nil {
+					logger.Fatalf("Faild to init output %s", k)
+					break
+				}
+
+			}
+		}
+
+	}
 
 	// Start the Application
 	quasar.Start(config, logger)

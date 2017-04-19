@@ -1,39 +1,17 @@
 package quasar
 
 import (
-	"fmt"
-	"net"
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 
 	"github.com/Sirupsen/logrus"
 	"github.com/amine7536/quasar/conf"
-	"github.com/amine7536/quasar/utils"
+	"github.com/amine7536/quasar/event"
 	api "github.com/osrg/gobgp/api"
 	gobgpConfig "github.com/osrg/gobgp/config"
 	gobgp "github.com/osrg/gobgp/server"
 )
-
-type event struct {
-	time     time.Time
-	network  nilr
-	nexthop  net.IP
-	withdraw bool
-	neighbor neighbor
-}
-
-type nilr struct {
-	net  string
-	name []string
-}
-
-type neighbor struct {
-	address string
-	asn     uint32
-	name    []string
-}
 
 // Start the App
 func Start(config *conf.Config, logger *logrus.Entry) {
@@ -96,33 +74,23 @@ mainLoop:
 			case *gobgp.WatchEventBestPath:
 				for _, path := range msg.PathList {
 
-					neighborName, err := utils.ResolveName(path.GetSource().Address.String())
+					// Parsers
+					bgpevent := event.Event{}
+					err := event.Parse(&bgpevent, path)
 					if err != nil {
-						logger.Warn(err.Error())
+						logger.Info(err)
 					}
 
-					nlirName, err := utils.ResolveNilrName(path.GetNlri().String())
-					if err != nil {
-						logger.Warn(err.Error())
-					}
+					// Outputs
+					for name, out := range conf.MapOutputs {
+						logger.Debugf("output=%s", name)
+						go func(o conf.OutputHandler, e event.Event) {
+							if err := o.Send(e); err != nil {
+								logger.Errorf("output failed: %v\n", err)
+							}
+						}(out, bgpevent)
 
-					e := event{
-						time: path.GetTimestamp(),
-						neighbor: neighbor{
-							address: path.GetSource().Address.String(),
-							asn:     path.GetSource().AS,
-							name:    neighborName,
-						},
-						withdraw: path.IsWithdraw,
-						nexthop:  path.GetNexthop(),
-						network: nilr{
-							net:  path.GetNlri().String(),
-							name: nlirName,
-						},
 					}
-
-					fmt.Printf("%+v\n", e)
-					fmt.Printf("%+v\n", path)
 
 				}
 			}
