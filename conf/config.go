@@ -1,6 +1,8 @@
 package conf
 
 import (
+	"encoding/json"
+
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -11,12 +13,8 @@ type Neighbor struct {
 	Asn     uint32 `json:"asn"`
 }
 
-// Outputs config
-type Outputs struct {
-	Mode string `json:"mode"`
-	Host string `json:"host"`
-	Port string `json:"port"`
-}
+// RawConfig config
+type RawConfig map[string]interface{}
 
 // Config the application's configuration
 type Config struct {
@@ -25,7 +23,7 @@ type Config struct {
 	API       bool          `json:"api"`
 	Neighbors []Neighbor    `json:"neighbors"`
 	Logs      LoggingConfig `json:"logs"`
-	Outputs   []Outputs     `json:"outputs"`
+	Outputs   RawConfig     `json:"outputs"`
 }
 
 // LoadConfig loads the config from a file if specified, otherwise from the environment
@@ -53,5 +51,21 @@ func LoadConfig(cmd *cobra.Command) (*Config, error) {
 		return nil, ko
 	}
 
+	config.Outputs = viper.GetStringMap("outputs")
+
 	return &config, nil
+}
+
+// ReflectConfig set conf from confraw
+func ReflectConfig(confraw *interface{}, conf interface{}) (err error) {
+	data, err := json.Marshal(confraw)
+	if err != nil {
+		return
+	}
+
+	if err = json.Unmarshal(data, conf); err != nil {
+		return
+	}
+
+	return
 }

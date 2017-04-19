@@ -1,7 +1,7 @@
 {
   "routerid": "10.2.2.2",
   "asn": 65000,
-  "api": true,
+  "api": false,
   "logs": {
     "level": "info",
     "file": "",
@@ -11,9 +11,14 @@
       "address": "10.2.2.3",
       "asn": 65000
   }],
-  "outputs": [{
-    "host": "localhost",
-    "port": "3000",
-    "mode": "logstash"
-  }]
+  "outputs": {
+    "logstash": {
+      "host": "localhost",
+      "port": "3000"
+    },
+    "elastic":{
+      "url": "http://localhost:9200",
+      "index":"quasar"
+    }
+  }
 }
