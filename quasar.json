@@ -4,7 +4,7 @@
   "api": false,
   "logs": {
     "level": "info",
-    "file": "",
+    "file": "quasar.log",
     "format": "json"
   },
   "neighbors":[{
@@ -14,11 +14,10 @@
   "outputs": {
     "logstash": {
       "host": "localhost",
-      "port": "3000"
+      "port": "9000"
     },
-    "elastic":{
-      "url": "http://localhost:9200",
-      "index":"quasar"
+    "stdout": {
+      "mode":"json"
     }
   }
 }

@@ -5,6 +5,7 @@ import (
 
 	"github.com/amine7536/quasar/conf"
 	"github.com/amine7536/quasar/output/logstash"
+	"github.com/amine7536/quasar/output/stdout"
 	"github.com/amine7536/quasar/quasar"
 	"github.com/spf13/cobra"
 )
@@ -45,19 +46,25 @@ func run(cmd *cobra.Command, args []string) {
 	// Register Outputs
 	if config.Outputs != nil {
 		for k, v := range config.Outputs {
-			// mm := v["logstash"].(map[string]interface{})
 
-			output, err := outputlogstash.InitOutput(&v, logger)
-			if err != nil {
-				logger.Fatalf("Faild to init output %s", k)
-				break
+			switch k {
+			case "stdout":
+				output, err := outputstdout.InitOutput(&v, logger)
+				conf.RegisterOutput(k, output)
+				if err != nil {
+					logger.Fatalf("Faild to init output %s", k)
+					break
+				}
+
+			case "logstash":
+				output, err := outputlogstash.InitOutput(&v, logger)
+				conf.RegisterOutput(k, output)
+				if err != nil {
+					logger.Fatalf("Faild to init output %s", k)
+					break
+				}
+
 			}
-			conf.RegisterOutput(k, output)
-
-			// fmt.Println("-------------")
-			// fmt.Println(k)
-			// fmt.Println("-------------")
-			// fmt.Println(utils.Typeof(v))
 		}
 
 	}

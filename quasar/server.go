@@ -8,7 +8,6 @@ import (
 	"github.com/Sirupsen/logrus"
 	"github.com/amine7536/quasar/conf"
 	"github.com/amine7536/quasar/event"
-	"github.com/amine7536/quasar/utils"
 	api "github.com/osrg/gobgp/api"
 	gobgpConfig "github.com/osrg/gobgp/config"
 	gobgp "github.com/osrg/gobgp/server"
@@ -75,35 +74,18 @@ mainLoop:
 			case *gobgp.WatchEventBestPath:
 				for _, path := range msg.PathList {
 
-					neighborName, err := utils.ResolveName(path.GetSource().Address.String())
+					// Parsers
+					bgpevent := event.Event{}
+					err := event.Parse(&bgpevent, path)
 					if err != nil {
-						logger.Warn(err.Error())
-					}
-
-					nlirName, err := utils.ResolveNilrName(path.GetNlri().String())
-					if err != nil {
-						logger.Warn(err.Error())
-					}
-
-					bgpevent := event.Event{
-						Time: path.GetTimestamp(),
-						Neighbor: event.Neighbor{
-							Address: path.GetSource().Address.String(),
-							Asn:     path.GetSource().AS,
-							Name:    neighborName,
-						},
-						Withdraw: path.IsWithdraw,
-						Nexthop:  path.GetNexthop(),
-						Network: event.Nilr{
-							Net:  path.GetNlri().String(),
-							Name: nlirName,
-						},
+						logger.Info(err)
 					}
 
 					// Outputs
-					for _, out := range conf.MapOutputs {
+					for name, out := range conf.MapOutputs {
+						logger.Debugf("output=%s", name)
 						go func(o conf.OutputHandler, e event.Event) {
-							if err = o.Send(e); err != nil {
+							if err := o.Send(e); err != nil {
 								logger.Errorf("output failed: %v\n", err)
 							}
 						}(out, bgpevent)

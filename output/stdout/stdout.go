@@ -1,4 +1,4 @@
-package outputlogstash
+package outputstdout
 
 import (
 	"encoding/json"
@@ -10,12 +10,11 @@ import (
 )
 
 // Name output name
-const Name = "logstash"
+const Name = "stdout"
 
 // OutputConfig main type
 type Output struct {
-	Host string `json:"host"`
-	Port string `json:"port"`
+	Mode string `json:"mode"`
 }
 
 // DefaultOutputConfig return default config struct
@@ -36,13 +35,24 @@ func InitOutput(configRaw *interface{}, logger *logrus.Entry) (conf.OutputHandle
 
 // Output send output
 func (t *Output) Send(event event.Event) error {
-	output, err := json.MarshalIndent(event, "    ", "  ")
+	if t.Mode == "json" {
+		output, err := json.MarshalIndent(event, "    ", "  ")
 
-	if err != nil {
-		fmt.Println(err)
-		return err
+		if err != nil {
+			fmt.Println(err)
+			return err
+		}
+
+		fmt.Println(string(output))
+	} else {
+		output, err := json.Marshal(event)
+
+		if err != nil {
+			fmt.Println(err)
+			return err
+		}
+
+		fmt.Println(output)
 	}
-
-	fmt.Println(string(output))
 	return nil
 }
