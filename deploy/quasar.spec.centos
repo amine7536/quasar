@@ -12,8 +12,9 @@ Source0:	%{name}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}
 
 %description
-Quasar collects BGP events from peers and sends them to multiple outputs (Stdout, Logstash ...)
 Most astronomers think a quasar is a black hole with matter falling into it.
+Quasar collects BGP events from Peers and sends them to multiple outputs (Stdout, Logstash ...)
+
 
 %define __bindir    /usr/bin
 %define __etcdir    /etc/quasar
@@ -24,6 +25,9 @@ rm -rf %{buildroot}
 %setup -n %{name}
 
 %build
+
+%pre
+/usr/bin/getent passwd %{name} || /usr/sbin/useradd -r -s /sbin/nologin %{name}
 
 %install
 [ "%{buildroot}" != "/" ] && rm -fr %{buildroot}
@@ -39,6 +43,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 systemctl daemon-reload
+
+%postun
+/usr/sbin/userdel %{name}
 
 %files
 %defattr(-,root,root,-)
