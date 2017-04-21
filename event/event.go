@@ -8,19 +8,23 @@ import (
 	gobgpTable "github.com/osrg/gobgp/table"
 )
 
+// Event struct
 type Event struct {
-	Time     time.Time
-	Network  Nilr
-	Nexthop  net.IP
-	Withdraw bool
-	Neighbor Neighbor
+	Time        time.Time
+	Network     Nilr
+	Nexthop     net.IP
+	NexthopName []string
+	Withdraw    bool
+	Neighbor    Neighbor
 }
 
+// Nilr struct
 type Nilr struct {
 	Net  string
 	Name []string
 }
 
+// Neighbor struct
 type Neighbor struct {
 	Address string
 	Asn     uint32
@@ -32,6 +36,7 @@ func Parse(bgpevent *Event, path *gobgpTable.Path) error {
 	// Try to resolve DNS Names
 	neighborName, _ := utils.ResolveName(path.GetSource().Address.String())
 	nlirName, _ := utils.ResolveNilrName(path.GetNlri().String())
+	nexthopName, _ := utils.ResolveName(path.GetNexthop().String())
 
 	// Update Event
 	bgpevent.Time = path.GetTimestamp()
@@ -40,9 +45,9 @@ func Parse(bgpevent *Event, path *gobgpTable.Path) error {
 		Asn:     path.GetSource().AS,
 		Name:    neighborName,
 	}
-
 	bgpevent.Withdraw = path.IsWithdraw
 	bgpevent.Nexthop = path.GetNexthop()
+	bgpevent.NexthopName = nexthopName
 	bgpevent.Network = Nilr{
 		Net:  path.GetNlri().String(),
 		Name: nlirName,
