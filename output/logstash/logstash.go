@@ -78,16 +78,15 @@ func (t *Output) Send(event event.Event) error {
 	}
 
 	// Event
-	conn := t.Conn
-	_, err = conn.Write(out)
+	_, err = t.Conn.Write(out)
 	if err != nil {
 		return err
 	}
 
 	// Send EOF
-	_, errEOF := conn.Write([]byte("\r\n\r\n"))
-	if errEOF != nil {
-		return errEOF
+	_, err = t.Conn.Write([]byte("\r\n\r\n"))
+	if err != nil {
+		return err
 	}
 
 	return nil
