@@ -85,6 +85,7 @@ mainLoop:
 					for name, out := range conf.MapOutputs {
 						logger.Debugf("output=%s", name)
 						go func(o conf.OutputHandler, e event.Event) {
+							logger.Debugf("event=%+v", e)
 							if err := o.Send(e); err != nil {
 								logger.Errorf("output failed: %v\n", err)
 							}
