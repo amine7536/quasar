@@ -1,11 +1,11 @@
 {
   "routerid": "10.2.2.2",
-  "asn": 65000,
+  "asn": 65001,
   "api": false,
   "logs": {
-    "level": "info",
+    "level": "debug",
     "file": "quasar.log",
-    "format": "json"
+    "format": "text"
   },
   "neighbors":[{
       "address": "10.2.2.3",
@@ -13,11 +13,8 @@
   }],
   "outputs": {
     "logstash": {
-      "host": "localhost",
-      "port": "9000"
-    },
-    "stdout": {
-      "mode":"json"
+      "host": "10.2.2.4",
+      "port": "3000"
     }
   }
 }
