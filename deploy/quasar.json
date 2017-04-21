@@ -1,0 +1,23 @@
+{
+  "routerid": "",
+  "asn": 0,
+  "api": false,
+  "logs": {
+    "level": "debug",
+    "file": "/var/log/quasar.log",
+    "format": "text"
+  },
+  "neighbors":[{
+      "address": "",
+      "asn": 0 
+  }],
+  "outputs": {
+    "logstash": {
+      "host": "",
+      "port": ""
+    },
+    "stdout": {
+      "mode": "json"
+    }
+  }
+}

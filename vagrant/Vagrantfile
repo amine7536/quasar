@@ -12,13 +12,13 @@ Vagrant.configure("2") do |config|
   config.hostmanager.include_offline = true
 
   #
-  # Build Server1
+  # Build VM
   #
   config.vm.define "golang" do |golang|
 
     config.vm.provider "virtualbox" do |v|
-      v.customize ["modifyvm", :id, "--memory", "2048"]
-      v.customize ["modifyvm", :id, "--cpus", "4"]
+      v.customize ["modifyvm", :id, "--memory", "512"]
+      v.customize ["modifyvm", :id, "--cpus", "2"]
     end
 
     golang.vm.box = "boxcutter/centos73"
@@ -36,7 +36,7 @@ Vagrant.configure("2") do |config|
       sudo yum -y group install "Development Tools"
       # Set Git User/Email
       git config --global user.name \"#{GITUSER}\"
-      git config --global user.name \"#{GITUSEREMAIL}\"
+      git config --global user.email \"#{GITUSEREMAIL}\"
       # Golang
       wget -q https://storage.googleapis.com/golang/go1.8.1.linux-amd64.tar.gz
       sudo tar -C /usr/local -xzf go1.8.1.linux-amd64.tar.gz

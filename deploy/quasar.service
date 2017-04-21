@@ -1,0 +1,15 @@
+[Unit]
+Description=Quasar BGP Collector
+After=network.target remote-fs.target nss-lookup.target
+Documentation=https://github.com/amine7536/quasar
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/sysconfig/quasar
+ExecStart=/usr/bin/quasar -c $CONFIGFILE
+ExecStop=/bin/kill -WINCH ${MAINPID}
+KillSignal=SIGTERM
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

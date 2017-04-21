@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/amine7536/quasar/conf"
+	"github.com/amine7536/quasar/loader"
 	"github.com/amine7536/quasar/quasar"
 	"github.com/spf13/cobra"
 )
@@ -39,9 +40,13 @@ func run(cmd *cobra.Command, args []string) {
 		log.Fatal("Failed to configure logging: " + err.Error())
 	}
 
+	if err := loader.LoadOutputs(config.Outputs, logger); err != nil {
+		logger.Fatal(err.Error())
+		return
+	}
+
 	logger.Infof("Starting with config: %+v", config)
 
 	// Start the Application
 	quasar.Start(config, logger)
-
 }

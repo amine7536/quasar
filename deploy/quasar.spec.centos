@@ -1,0 +1,58 @@
+%define debug_package %{nil}
+
+Name:	    quasar
+Version:	%{version}
+Release:	%{release}.el7
+Summary:	Collects BGP events from Peers and sends them to Logstash
+
+Group:		default
+License:	MIT License
+URL:		https://github.com/amine7536/quasar
+Source0:	%{name}.tar.gz
+BuildRoot:      %{_tmppath}/%{name}-%{version}
+
+%description
+Most astronomers think a quasar is a black hole with matter falling into it.
+Quasar collects BGP events from Peers and sends them to multiple outputs (Stdout, Logstash ...)
+
+
+%define __bindir    /usr/bin
+%define __etcdir    /etc/quasar
+%define __sysconfigdir    /etc/sysconfig
+
+%prep
+rm -rf %{buildroot}
+%setup -n %{name}
+
+%build
+
+%pre
+/usr/bin/getent passwd %{name} || /usr/sbin/useradd -r -s /sbin/nologin %{name}
+
+%install
+[ "%{buildroot}" != "/" ] && rm -fr %{buildroot}
+%{__mkdir} -p %{buildroot}%{__bindir}
+
+%{__install} -pD -m 755 %{name} %{buildroot}/%{__bindir}/%{name}
+%{__install} -pD -m 644 %{name}.json %{buildroot}/%{__etcdir}/%{name}.json
+%{__install} -pD -m 644 %{name}.sysconfig %{buildroot}/%{__sysconfigdir}/%{name}
+%{__install} -pD -m 644 %{name}.service %{buildroot}/%{_unitdir}/%{name}.service
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%post
+systemctl daemon-reload
+
+%postun
+/usr/sbin/userdel %{name}
+
+%files
+%defattr(-,root,root,-)
+%{__bindir}/%{name}
+%config(noreplace) %{__etcdir}/%{name}.json
+%config(noreplace) %{__sysconfigdir}/%{name}
+%config(noreplace) %{_unitdir}/%{name}.service
+
+
+%changelog

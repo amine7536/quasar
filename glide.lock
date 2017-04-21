@@ -1,8 +1,10 @@
-hash: bab820dcc49527f5368956c5457a252c7247c9afb90a1a4e697a91f475f4b75d
-updated: 2017-04-14T14:58:08.65514972+02:00
+hash: e12872f4d27ab55b4ce266cb3a0f8afb98991c15347f30a36f9900399677bb13
+updated: 2017-04-20T15:23:24.637744571Z
 imports:
 - name: github.com/armon/go-radix
   version: 4239b77079c7b5d1243b7b4736304ce8ddb6f0f2
+- name: github.com/bshuster-repo/logrus-logstash-hook
+  version: cf321b0839ac25d63a7c06163650047ee0b7f12d
 - name: github.com/eapache/channels
   version: 47238d5aae8c0fefd518ef2bee46290909cf8263
 - name: github.com/eapache/queue
@@ -71,6 +73,12 @@ imports:
   version: e453343e6260b4a3a89f1f0e10a2fbb07f8d9750
 - name: github.com/spf13/viper
   version: 5d46e70da8c0b6f812e0b170b7a985753b5c63cb
+- name: github.com/stackimpact/stackimpact-go
+  version: 7fba6acf31e05770aed3cc07569f06bd00823798
+  subpackages:
+  - internal
+  - internal/pprof/profile
+  - internal/pprof/trace
 - name: github.com/vishvananda/netlink
   version: 1d1fee5b1873b5396355214125b824ca3409c64a
   subpackages:
@@ -127,7 +135,7 @@ testImports:
   subpackages:
   - spew
 - name: github.com/pmezard/go-difflib
-  version: 792786c7400a136282c1664665ae0a8db921c6c2
+  version: d8ed2627bdf02c080bf22230dbb337003b7aba2d
   subpackages:
   - difflib
 - name: github.com/stretchr/testify
