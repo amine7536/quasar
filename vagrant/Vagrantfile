@@ -4,15 +4,19 @@
 ENV['LC_ALL'] = 'en_US.UTF-8'
 GITUSER=`git config user.name`
 GITUSEREMAIL=`git config user.email`
+GITPROJECT="quasar"
+GITORG="amine7536"
 
 Vagrant.configure("2") do |config|
 
   config.hostmanager.enabled = true
+  config.hostmanager.manage_host = true
   config.hostmanager.ignore_private_ip = false
   config.hostmanager.include_offline = true
+  config.vm.provision :hostmanager
 
   #
-  # Build VM
+  # Dev/Build VM
   #
   config.vm.define "golang" do |golang|
 
@@ -24,19 +28,34 @@ Vagrant.configure("2") do |config|
     golang.vm.box = "boxcutter/centos73"
     golang.vm.box_url = "file:///Users/amine/Develop/github/boxcutter-centos/box/virtualbox/centos73-2.0.22.box"
 
-    golang.vm.hostname = "buildvm.centos73-2.golang.lab"
-    golang.vm.network :private_network, ip: "10.2.2.2"
-    golang.hostmanager.aliases = %w(golang)
+    # VM network
+    # -Start-
+    golang.vm.hostname = "#{GITPROJECT}.buildvm.centos73-2.golang.lab"
+    golang.vm.network :private_network, type: "dhcp"
 
-    golang.vm.synced_folder "../", "/home/vagrant/go/src/github.com/amine7536/quasar"
+    golang.hostmanager.ip_resolver = proc do |vm, resolving_vm|
+      if hostname = (vm.ssh_info && vm.ssh_info[:host])
+        `vagrant ssh -c "/usr/bin/hostname -I"`.split()[1]
+      end
+    end
 
+    golang.hostmanager.aliases = "#{GITPROJECT}-golang"
+    # -End-
+
+    # VM Sync folder
+    # -Start-
+    golang.vm.synced_folder "../", "/home/vagrant/go/src/github.com/#{GITORG}/#{GITPROJECT}"
+    # -End-
+
+    # VM Provisionning
+    # -Start-
     golang.vm.provision "shell", inline: <<-SHELL
       sudo systemctl restart network
       sudo yum -y install epel-release
       sudo yum -y group install "Development Tools"
       # Set Git User/Email
-      git config --global user.name \"#{GITUSER}\"
-      git config --global user.email \"#{GITUSEREMAIL}\"
+      sudo -H -u vagrant bash -c "git config --global user.name \'#{GITUSER}\'"
+      sudo -H -u vagrant bash -c "git config --global user.email \'#{GITUSEREMAIL}\'"
       # Golang
       wget -q https://storage.googleapis.com/golang/go1.8.1.linux-amd64.tar.gz
       sudo tar -C /usr/local -xzf go1.8.1.linux-amd64.tar.gz
@@ -53,10 +72,8 @@ Vagrant.configure("2") do |config|
       wget -q https://github.com/Masterminds/glide/releases/download/v0.12.3/glide-v0.12.3-linux-amd64.tar.gz
       tar -C /home/vagrant/go/bin/ -xvf glide-v0.12.3-linux-amd64.tar.gz
       sudo mv /home/vagrant/go/bin/linux-amd64/glide /home/vagrant/go/bin/.
-      # run build script, makefile ...
-
     SHELL
+    # -End-
 
   end
-
 end
