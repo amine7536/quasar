@@ -1,5 +1,5 @@
 {
-  "routerid": "10.2.2.2",
+  "routerid": "192.168.33.11",
   "asn": 65001,
   "api": false,
   "logs": {
@@ -8,13 +8,12 @@
     "format": "text"
   },
   "neighbors":[{
-      "address": "10.2.2.3",
+      "address": "192.168.33.10",
       "asn": 65000
   }],
   "outputs": {
-    "logstash": {
-      "host": "10.2.2.4",
-      "port": "3000"
+    "stdout": {
+      "mode": "json"
     }
   }
 }
