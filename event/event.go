@@ -12,21 +12,21 @@ type Event struct {
 	Time     time.Time `json:"time"`
 	Network  Nlri      `json:"network"`
 	Nexthop  Nlri      `json:"nexthop"`
-	Withdraw bool
-	Neighbor Neighbor
+	Withdraw bool      `json:"withdraw"`
+	Neighbor Neighbor  `json:"neighbor"`
 }
 
 // Nlri struct
 type Nlri struct {
-	Net  string
-	Name []string
+	Net  string   `json:"net"`
+	Name []string `json:"name"`
 }
 
 // Neighbor struct
 type Neighbor struct {
-	Address string
-	Asn     uint32
-	Name    []string
+	Address string   `json:"address"`
+	Asn     uint32   `json:"asn"`
+	Name    []string `json:"name"`
 }
 
 // Parse Event
