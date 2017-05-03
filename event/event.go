@@ -1,7 +1,6 @@
 package event
 
 import (
-	"net"
 	"time"
 
 	"github.com/amine7536/quasar/utils"
@@ -10,25 +9,24 @@ import (
 
 // Event struct
 type Event struct {
-	Time        time.Time
-	Network     Nilr
-	Nexthop     net.IP
-	NexthopName []string
-	Withdraw    bool
-	Neighbor    Neighbor
+	Time     time.Time `json:"time"`
+	Network  Nlri      `json:"network"`
+	Nexthop  Nlri      `json:"nexthop"`
+	Withdraw bool      `json:"withdraw"`
+	Neighbor Neighbor  `json:"neighbor"`
 }
 
-// Nilr struct
-type Nilr struct {
-	Net  string
-	Name []string
+// Nlri struct
+type Nlri struct {
+	Net  string   `json:"net"`
+	Name []string `json:"name"`
 }
 
 // Neighbor struct
 type Neighbor struct {
-	Address string
-	Asn     uint32
-	Name    []string
+	Address string   `json:"address"`
+	Asn     uint32   `json:"asn"`
+	Name    []string `json:"name"`
 }
 
 // Parse Event
@@ -46,9 +44,11 @@ func Parse(bgpevent *Event, path *gobgpTable.Path) error {
 		Name:    neighborName,
 	}
 	bgpevent.Withdraw = path.IsWithdraw
-	bgpevent.Nexthop = path.GetNexthop()
-	bgpevent.NexthopName = nexthopName
-	bgpevent.Network = Nilr{
+	bgpevent.Nexthop = Nlri{
+		Net:  path.GetNexthop().String(),
+		Name: nexthopName,
+	}
+	bgpevent.Network = Nlri{
 		Net:  path.GetNlri().String(),
 		Name: nlirName,
 	}
