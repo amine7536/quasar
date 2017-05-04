@@ -5,6 +5,7 @@ import (
 
 	"github.com/Sirupsen/logrus"
 	"github.com/amine7536/quasar/conf"
+	"github.com/amine7536/quasar/output/file"
 	"github.com/amine7536/quasar/output/logstash"
 	"github.com/amine7536/quasar/output/stdout"
 )
@@ -25,6 +26,13 @@ func LoadOutputs(outputConfig conf.RawConfig, logger *logrus.Entry) error {
 
 			case "logstash":
 				output, err := outputlogstash.InitOutput(&v, logger)
+				conf.RegisterOutput(k, output)
+				if err != nil {
+					return fmt.Errorf("Faild to load output %s", k)
+				}
+
+			case "file":
+				output, err := outputfile.InitOutput(&v, logger)
 				conf.RegisterOutput(k, output)
 				if err != nil {
 					return fmt.Errorf("Faild to load output %s", k)
