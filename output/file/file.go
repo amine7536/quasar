@@ -53,6 +53,7 @@ func (t *Output) Send(event event.Event) error {
 	}
 
 	f.Write(output)
+	f.Write([]byte("\r\n"))
 
 	return nil
 }
