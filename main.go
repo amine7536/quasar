@@ -8,7 +8,7 @@ import (
 
 const (
 	// Version : app version
-	Version = "0.3.2"
+	Version = "0.3.4"
 	// ProgramName : app name
 	ProgramName = "Quasar"
 )

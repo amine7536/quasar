@@ -7,6 +7,7 @@ test:
 	$(GOTEST) github.com/amine7536/quasar/quasar
 	$(GOTEST) github.com/amine7536/quasar/conf
 	$(GOTEST) github.com/amine7536/quasar/output/stdout
+	$(GOTEST) github.com/amine7536/quasar/output/file
 	$(GOTEST) github.com/amine7536/quasar/output/logstash
 	$(GOTEST) github.com/amine7536/quasar/event
 	$(GOTEST) github.com/amine7536/quasar/cmd
