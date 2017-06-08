@@ -51,6 +51,12 @@ func Start(config *conf.Config, logger *logrus.Entry) {
 				NeighborAddress: v.Address,
 				PeerAs:          v.Asn,
 			},
+			EbgpMultihop: gobgpConfig.EbgpMultihop{
+				Config: gobgpConfig.EbgpMultihopConfig{
+					Enabled:     true,
+					MultihopTtl: 80,
+				},
+			},
 		}
 
 		if err := s.AddNeighbor(n); err != nil {
