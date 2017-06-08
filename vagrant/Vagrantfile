@@ -19,7 +19,6 @@ boxes = [
 
 CUSTOM_CONFIG = {
   "BOX_NAME"  =>  "boxcutter/centos73",
-  "BOX_URL"   =>  "file:///Users/amine/Develop/github/boxcutter-centos/box/virtualbox/centos73-2.0.22.box",
 }
 
 Vagrant.configure("2") do |config|
@@ -38,7 +37,6 @@ Vagrant.configure("2") do |config|
   boxes.each do |opts|
     config.vm.define opts[:name] do |boxconfig|
       boxconfig.vm.box        = CUSTOM_CONFIG['BOX_NAME']
-      boxconfig.vm.box_url    = CUSTOM_CONFIG['BOX_URL']
       boxconfig.vm.hostname   = "%s.vagrant" % opts[:name].to_s
       boxconfig.vm.network      "private_network", ip: opts[:ip]
       boxconfig.hostmanager.aliases = opts[:name].to_s
