@@ -54,7 +54,7 @@ func Start(config *conf.Config, logger *logrus.Entry) {
 			EbgpMultihop: gobgpConfig.EbgpMultihop{
 				Config: gobgpConfig.EbgpMultihopConfig{
 					Enabled:     true,
-					MultihopTtl: 80,
+					MultihopTtl: 255,
 				},
 			},
 		}
