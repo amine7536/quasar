@@ -9,11 +9,12 @@ import (
 
 // Event struct
 type Event struct {
-	Time     time.Time `json:"time"`
-	Network  Nlri      `json:"network"`
-	Nexthop  Nlri      `json:"nexthop"`
-	Withdraw bool      `json:"withdraw"`
-	Neighbor Neighbor  `json:"neighbor"`
+	Time        time.Time `json:"time"`
+	Network     Nlri      `json:"network"`
+	Nexthop     Nlri      `json:"nexthop"`
+	Withdraw    bool      `json:"withdraw"`
+	Neighbor    Neighbor  `json:"neighbor"`
+	Communities []uint32  `json:"communities"`
 }
 
 // Nlri struct
@@ -52,6 +53,7 @@ func Parse(bgpevent *Event, path *gobgpTable.Path) error {
 		Net:  path.GetNlri().String(),
 		Name: nlirName,
 	}
+	bgpevent.Communities = path.GetCommunities()
 
 	return nil
 }
