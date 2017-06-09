@@ -79,6 +79,7 @@ mainLoop:
 			switch msg := ev.(type) {
 			case *gobgp.WatchEventBestPath:
 				for _, path := range msg.PathList {
+					logger.Debugf("path=%+v", path)
 
 					// Parsers
 					bgpevent := event.Event{}
