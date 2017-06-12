@@ -12,7 +12,6 @@ test:
 	$(GOTEST) github.com/amine7536/quasar/event
 	$(GOTEST) github.com/amine7536/quasar/cmd
 	
-
 quasar: test
 	mkdir -p build
 	$(GO) env

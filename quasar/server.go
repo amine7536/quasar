@@ -50,6 +50,10 @@ func Start(config *conf.Config, logger *logrus.Entry) {
 	}
 
 	for _, v := range config.Neighbors {
+		if v.MultihopTTL == 0 {
+			v.MultihopTTL = 255
+		}
+
 		// neighbor configuration
 		n := &gobgpConfig.Neighbor{
 			Config: gobgpConfig.NeighborConfig{
@@ -59,7 +63,7 @@ func Start(config *conf.Config, logger *logrus.Entry) {
 			EbgpMultihop: gobgpConfig.EbgpMultihop{
 				Config: gobgpConfig.EbgpMultihopConfig{
 					Enabled:     true,
-					MultihopTtl: 255,
+					MultihopTtl: v.MultihopTTL,
 				},
 			},
 		}

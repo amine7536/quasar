@@ -8,6 +8,12 @@
   },
   "neighbors":[{
       "address": "172.18.0.3",
+      "asn": 65000,
+      "multihop": true,
+      "multihopttl": 80
+  },
+  {
+      "address": "172.18.0.4",
       "asn": 65000
   }],
   "outputs": {

@@ -9,8 +9,10 @@ import (
 
 // Neighbor config
 type Neighbor struct {
-	Address string `json:"address"`
-	Asn     uint32 `json:"asn"`
+	Address     string `json:"address"`
+	Asn         uint32 `json:"asn"`
+	Multihop    bool   `json:"multihop"`
+	MultihopTTL uint8  `json:"multihopttl"`
 }
 
 // RawConfig config
