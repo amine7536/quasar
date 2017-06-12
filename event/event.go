@@ -1,6 +1,7 @@
 package event
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/amine7536/quasar/utils"
@@ -53,7 +54,9 @@ func Parse(bgpevent *Event, path *gobgpTable.Path) error {
 		Net:  path.GetNlri().String(),
 		Name: nlirName,
 	}
-	bgpevent.Communities = path.GetCommunities()
+
+	t, _ := path.MarshalJSON()
+	fmt.Println(string(t))
 
 	return nil
 }

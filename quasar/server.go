@@ -33,6 +33,11 @@ func Start(config *conf.Config, logger *logrus.Entry) {
 
 	// global configuration
 	global := &gobgpConfig.Global{
+		UseMultiplePaths: gobgpConfig.UseMultiplePaths{
+			Config: gobgpConfig.UseMultiplePathsConfig{
+				Enabled: true,
+			},
+		},
 		Config: gobgpConfig.GlobalConfig{
 			As:       config.Asn,
 			RouterId: config.RouterID,
@@ -65,7 +70,7 @@ func Start(config *conf.Config, logger *logrus.Entry) {
 	}
 
 	// monitor new routes
-	w := s.Watch(gobgp.WatchBestPath(false))
+	w := s.Watch(gobgp.WatchUpdate(false))
 
 mainLoop:
 	for {
@@ -77,7 +82,8 @@ mainLoop:
 			break mainLoop
 		case ev := <-w.Event():
 			switch msg := ev.(type) {
-			case *gobgp.WatchEventBestPath:
+			// case *gobgp.WatchEventBestPath:
+			case *gobgp.WatchEventUpdate:
 				for _, path := range msg.PathList {
 					logger.Debugf("path=%+v", path)
 
