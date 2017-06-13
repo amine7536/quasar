@@ -1,8 +1,8 @@
 [global.config]
   as = 65000
-  router-id = "192.168.33.10"
+  router-id = "172.18.0.3"
 
 [[neighbors]]
   [neighbors.config]
-    neighbor-address = "192.168.33.11"
+    neighbor-address = "172.18.0.2"
     peer-as = 65001
