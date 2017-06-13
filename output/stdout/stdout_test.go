@@ -1,6 +1,7 @@
 package outputstdout
 
 import (
+	"net"
 	"testing"
 	"time"
 
@@ -23,12 +24,14 @@ func Test_main(t *testing.T) {
 		Name:    []string{"router1.test"},
 	}
 	bgpevent.Withdraw = true
-	bgpevent.Nexthop = event.Nlri{
+	bgpevent.Nexthop = event.Nexthop{
 		Net:  "172.16.0.254",
 		Name: []string{"router2.test"},
 	}
-	bgpevent.Network = event.Nlri{
-		Net:  "192.168.1.36",
+
+	_, networkNet, _ := net.ParseCIDR("192.168.1.36/32")
+	bgpevent.Network = event.Network{
+		Net:  networkNet.String(),
 		Name: []string{"service.test"},
 	}
 

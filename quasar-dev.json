@@ -1,14 +1,19 @@
 {
-  "routerid": "192.168.33.11",
+  "routerid": "172.18.0.2",
   "asn": 65001,
-  "api": false,
+  "api": true,
   "logs": {
     "level": "debug",
-    "file": "quasar.log",
-    "format": "text"
+    "format": "json"
   },
   "neighbors":[{
-      "address": "192.168.33.10",
+      "address": "172.18.0.3",
+      "asn": 65000,
+      "multihop": true,
+      "multihopttl": 80
+  },
+  {
+      "address": "172.18.0.4",
       "asn": 65000
   }],
   "outputs": {
