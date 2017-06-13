@@ -1,6 +1,7 @@
 package event
 
 import (
+	"fmt"
 	"net"
 	"time"
 
@@ -15,7 +16,7 @@ type Event struct {
 	Nexthop     Nexthop   `json:"nexthop"`
 	Withdraw    bool      `json:"withdraw"`
 	Neighbor    Neighbor  `json:"neighbor"`
-	Communities []uint32  `json:"communities"`
+	Communities []string  `json:"communities"`
 }
 
 // Network struct
@@ -77,7 +78,13 @@ func Parse(bgpevent *Event, path *gobgpTable.Path) error {
 	}
 
 	// Communities
-	bgpevent.Communities = path.GetCommunities()
+	for _, comm := range path.GetCommunities() {
+		bgpevent.Communities = append(bgpevent.Communities, communityToString(comm))
+	}
 
 	return nil
+}
+
+func communityToString(comm uint32) string {
+	return fmt.Sprintf("%d:%d", comm>>16, comm&0x0000ffff)
 }
