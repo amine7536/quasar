@@ -1,10 +1,8 @@
-hash: e12872f4d27ab55b4ce266cb3a0f8afb98991c15347f30a36f9900399677bb13
-updated: 2017-04-20T15:23:24.637744571Z
+hash: 7711256a20e374d4771891172c94649da58790286817e11649124b9426da4e20
+updated: 2017-08-30T17:26:28.367572+02:00
 imports:
 - name: github.com/armon/go-radix
   version: 4239b77079c7b5d1243b7b4736304ce8ddb6f0f2
-- name: github.com/bshuster-repo/logrus-logstash-hook
-  version: cf321b0839ac25d63a7c06163650047ee0b7f12d
 - name: github.com/eapache/channels
   version: 47238d5aae8c0fefd518ef2bee46290909cf8263
 - name: github.com/eapache/queue
@@ -40,7 +38,7 @@ imports:
 - name: github.com/mitchellh/mapstructure
   version: 53818660ed4955e899c0bcafa97299a388bd7c8e
 - name: github.com/osrg/gobgp
-  version: 7f95cdc871e21d194ebfaf9c10d0596f17ff2971
+  version: bbd1d99396fef6503e308d1851ecf91c31006635
   subpackages:
   - api
   - config
@@ -57,8 +55,8 @@ imports:
   version: fe206efb84b2bc8e8cfafe6b4c1826622be969e3
 - name: github.com/satori/go.uuid
   version: 5bf94b69c6b68ee1b541973bb8e1144db23a194b
-- name: github.com/Sirupsen/logrus
-  version: 10f801ebc38b33738c9d17d50860f484a0988ff5
+- name: github.com/sirupsen/logrus
+  version: f006c2ac4710855cf0f916dd6b77acf6b048dc6e
 - name: github.com/spf13/afero
   version: 9be650865eab0c12963d8753212f4f9c66cdcf12
   subpackages:
@@ -72,19 +70,17 @@ imports:
 - name: github.com/spf13/pflag
   version: e453343e6260b4a3a89f1f0e10a2fbb07f8d9750
 - name: github.com/spf13/viper
-  version: 5d46e70da8c0b6f812e0b170b7a985753b5c63cb
-- name: github.com/stackimpact/stackimpact-go
-  version: 7fba6acf31e05770aed3cc07569f06bd00823798
-  subpackages:
-  - internal
-  - internal/pprof/profile
-  - internal/pprof/trace
+  version: 25b30aa063fc18e48662b86996252eabdcf2f0c7
 - name: github.com/vishvananda/netlink
   version: 1d1fee5b1873b5396355214125b824ca3409c64a
   subpackages:
   - nl
 - name: github.com/vishvananda/netns
   version: 54f0e4339ce73702a0607f49922aaa1e749b418d
+- name: golang.org/x/crypto
+  version: 81e90905daefcd6fd217b62423c0908922eadb30
+  subpackages:
+  - ssh/terminal
 - name: golang.org/x/net
   version: 5602c733f70afc6dcec6766be0d5034d4c4f14de
   subpackages:
@@ -99,6 +95,7 @@ imports:
   version: f3918c30c5c2cb527c0b071a27c35120a6c0719a
   subpackages:
   - unix
+  - windows
 - name: golang.org/x/text
   version: f4b4367115ec2de254587813edaa901bc1c723a8
   subpackages:
@@ -129,16 +126,4 @@ imports:
   version: d5d1b5820637886def9eef33e03a27a9f166942c
 - name: gopkg.in/yaml.v2
   version: cd8b52f8269e0feb286dfeef29f8fe4d5b397e0b
-testImports:
-- name: github.com/davecgh/go-spew
-  version: 346938d642f2ec3594ed81d874461961cd0faa76
-  subpackages:
-  - spew
-- name: github.com/pmezard/go-difflib
-  version: d8ed2627bdf02c080bf22230dbb337003b7aba2d
-  subpackages:
-  - difflib
-- name: github.com/stretchr/testify
-  version: 4d4bfba8f1d1027c4fdbe371823030df51419987
-  subpackages:
-  - assert
+testImports: []

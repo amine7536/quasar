@@ -4,8 +4,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/Sirupsen/logrus"
 	"github.com/amine7536/quasar/utils"
+	"github.com/sirupsen/logrus"
 )
 
 // LoggingConfig specifies all the parameters needed for logging
