@@ -3,8 +3,9 @@ go:
   - 1.8
   - 1.9
 before_install:
-  - mkdir -p $GOPATH/bin
-  - curl https://glide.sh/get | sh
+  - sudo add-apt-repository ppa:masterminds/glide -y
+  - sudo apt-get update -q
+  - sudo apt-get install glide -y
 script:
   - glide install
   - go env
