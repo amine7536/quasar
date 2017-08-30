@@ -43,4 +43,4 @@ clean-all: clean clean-rpm
 
 image:
 	CGO_ENABLED=0 GOOS=linux $(MAKE) quasar
-	docker build -t quasar .
+	docker build -t quasar -f quasar.Dockerfile .
