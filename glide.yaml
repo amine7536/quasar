@@ -1,7 +1,14 @@
 package: github.com/amine7536/quasar
 import:
-- package: github.com/Sirupsen/logrus
-- package: github.com/spf13/viper
-- package: github.com/spf13/cobra
 - package: github.com/osrg/gobgp
-- package: github.com/bshuster-repo/logrus-logstash-hook
+  version: ^1.22.0
+  subpackages:
+  - api
+  - config
+  - server
+  - table
+- package: github.com/sirupsen/logrus
+  version: ^1.0.3
+- package: github.com/spf13/cobra
+- package: github.com/spf13/viper
+  version: ^1.0.0

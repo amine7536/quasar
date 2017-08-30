@@ -3,11 +3,11 @@ package loader
 import (
 	"fmt"
 
-	"github.com/Sirupsen/logrus"
 	"github.com/amine7536/quasar/conf"
 	"github.com/amine7536/quasar/output/file"
 	"github.com/amine7536/quasar/output/logstash"
 	"github.com/amine7536/quasar/output/stdout"
+	"github.com/sirupsen/logrus"
 )
 
 // LoadOutputs load outputs

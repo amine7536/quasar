@@ -5,12 +5,12 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/Sirupsen/logrus"
 	"github.com/amine7536/quasar/conf"
 	"github.com/amine7536/quasar/event"
 	api "github.com/osrg/gobgp/api"
 	gobgpConfig "github.com/osrg/gobgp/config"
 	gobgp "github.com/osrg/gobgp/server"
+	"github.com/sirupsen/logrus"
 )
 
 // Start the App

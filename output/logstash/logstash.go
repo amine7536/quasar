@@ -5,9 +5,9 @@ import (
 	"net"
 	"time"
 
-	"github.com/Sirupsen/logrus"
 	"github.com/amine7536/quasar/conf"
 	"github.com/amine7536/quasar/event"
+	"github.com/sirupsen/logrus"
 )
 
 // Name output name
